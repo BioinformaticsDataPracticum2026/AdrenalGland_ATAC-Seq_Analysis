@@ -19,4 +19,4 @@
 # the values in 5-9 is meaningless, may need to attach to raw narrowPeak for partten analysis
 # as if you want to do MEME(pattern analysis) in "Find sequence patterns that occur more than expected by chance in each of the following
 # sets of peaks", you need to change the col 5-10 in correct values from orginal narrowPeak
-# notice: mouse_specific.narrowPeak is mouse_mapped_not_open_in_human, and human_specific.narrowPeak is human_not_open_in_mouse
+# notice: mouse_specific.narrowPeak is mouse_mapped_not_open_in_human, so not enough for task 3, and human_specific.narrowPeak is human_not_open_in_mouse + unmapped, so it can be used in task 3.
