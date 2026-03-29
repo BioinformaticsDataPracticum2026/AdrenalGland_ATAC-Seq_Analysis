@@ -23,10 +23,11 @@ sort -k1,1 -k2,2n mouse_to_human.narrowPeak > mouse_to_human.sorted.narrowPeak
 
 sort -k1,1 -k2,2n /ocean/projects/bio230007p/wli27/HumanAtac/peak/idr_reproducibility/idr.optimal_peak.narrowPeak > human.sorted.narrowPeak
 
+# shared mapped
 bedtools intersect -a mouse_to_human.sorted.narrowPeak -b human.sorted.narrowPeak -u > shared_peaks.narrowPeak
 
-# Mouse-specific peaks (not overlapping human)
+# Mouse mapped not open in human peaks (not overlapping human)
 bedtools intersect -a mouse_to_human.sorted.narrowPeak -b human.sorted.narrowPeak -v > mouse_specific_peaks.narrowPeak
 
-# Human-specific peaks (not overlapping mouse)
+# Human mapped not open in mouse peaks (not overlapping mouse)
 bedtools intersect -a human.sorted.narrowPeak -b mouse_to_human.sorted.narrowPeak -v > human_specific_peaks.narrowPeak
