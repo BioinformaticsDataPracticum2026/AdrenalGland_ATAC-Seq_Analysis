@@ -1,0 +1,27 @@
+The files in this folder are all outcomes from idr.conservative_peak by HALPER
+
+The files that can be used are all in narrowPeak
+*There are all in human genome coordination*
+
+human_conservative.sorted.narrowPeak: the original human idr.conservative_peak
+human_specific_peaks_constervative.narrowPeak: the human specific region
+mouse_specific_peaks_constervative.narrowPeak: the mouse specific region
+shared_peaks_conservative.narrowPeak: the shared region
+mouse_to_human_conservative.narrowPeak: mouse mapped to human genome coordination
+
+For human_conservative.sorted.narrowPeak and human_specific_peaks_constervative.narrowPeak:
+narrowPeak columns (BED6 + 4)
+#	Column name	Description
+1	chrom	Chromosome name (e.g., chr1)
+2	chromStart	Start position (0-based)
+3	chromEnd	End position (1-based)
+4	name	Peak name (often . or ID)
+5	score	Integer score (0–1000, for visualization)
+6	strand	Strand (. for ATAC/ChIP usually)
+7	signalValue	Strength of signal (e.g., enrichment)
+8	pValue	−log10(p-value)
+9	qValue	−log10(q-value, FDR-adjusted)
+10	peak	Offset of summit from start
+
+However, for mouse_specific_peaks_constervative.narrowPeak, shared_peaks_conservative.narrowPeak, mouse_to_human_conservative.narrowPeak
+They will add the raw mouse coordination in col 4 and the col for scores, pValue can not be used, which need to attach to the raw mouse file.
