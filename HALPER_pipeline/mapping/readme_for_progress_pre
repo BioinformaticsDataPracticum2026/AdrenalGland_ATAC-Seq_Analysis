@@ -1,0 +1,45 @@
+I think just two scirpts can be used for presentaion:
+(1) mapping_job_narrowPeak_conservative.sh
+It is used for mapping mouse into human and can be submit to psc GPU
+We use idr.conservative peaks beacuse it contains peaks with very high confidence, compared with idr.optiomal
+We use psc here, so we need to module load anaconda for the conda env
+Finally, we run the halLiftover-postprocessing/halper_map_peak_orthologs.sh which will map mouse open
+choromtid data onto human genome. It will output the mouse to human narrowPeak with HALPER filtering
+in human genome coordination.
+Hal:multiple whole-genome alignments across species in a hierarchical (phylogenetic) structure
+mouse nad human are the specific types in the reference hal file
+
+(2) bedtool_evaluation.sh
+link for bedtool: https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html
+It is used for create shared_region, mouse specific, human specific files and can be submit to psc GPU
+PSC has bedtool, so we just need to load, no need to install
+The sortion is just for quicker comparison for the mouse to human and original human file
+bedtool create shared_region, mouse specific, human specific files
+-a file A
+-b file B
+-u (unique) Reporting the mere presence of any overlapping features
+if an one or more overlaps exists, the A feature is reported
+Report each feature in file A once if it overlaps anything in file B
+
+-v Reporting the absence of any overlapping features
+know which “A” features do not overlap with any of the “B” features
+
+# notice
+The mouse-specific file is more likely a  mouse_nonreciprocal_peaks file, as it does not contain the peaks 
+in mouse that does not mapped into human genome.
+However, Given that both the mouse and human genomes are high-quality and the mapped peaks are 
+filtered for reproducibility (IDR conservative), it is reasonable to assume that most of these. 
+non-overlapping peaks reflect true species-specific regulatory regions rather than mapping artifacts
+
+
+The two scripts does not give the process for unzip, installation of Halper
+#!/bin/bash
+#SBATCH -A bio230007p        #  project/account
+#SBATCH -p RM-shared          # RM-shared partition
+#SBATCH --time=01:00:00       # max runtime
+#SBATCH -n 1               # 1 CPU
+#SBATCH --mem=2000         # 2000 MB total (~2 GB)
+#SBATCH -o generate_narrowPeak_%j.out      # stdout log
+#SBATCH -e generate_narrowPeak_%j.err      # stderr log
+#SBATCH -J generate_narrowPeak # job name
+These lines are required for psc to use slurm to submit the job into gpu(HPC)
