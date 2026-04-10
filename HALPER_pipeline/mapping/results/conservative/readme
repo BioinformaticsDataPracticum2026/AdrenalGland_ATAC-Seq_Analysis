@@ -5,9 +5,10 @@ The files that can be used are all in narrowPeak
 
 human_conservative.sorted.narrowPeak: the original human idr.conservative_peak
 human_specific_peaks_constervative.narrowPeak: the human specific region
-mouse_specific_peaks_constervative.narrowPeak: the mouse specific region
+mouse_specific_peaks_constervative.narrowPeak: the mouse specific region in human coordination
 shared_peaks_conservative.narrowPeak: the shared region
 mouse_to_human_conservative.narrowPeak: mouse mapped to human genome coordination
+mouse_specific_peaks_constervative.mouse_coords.narrowPeak: the mouse specific region in mouse coordination
 
 For human_conservative.sorted.narrowPeak and human_specific_peaks_constervative.narrowPeak:
 narrowPeak columns (BED6 + 4)
