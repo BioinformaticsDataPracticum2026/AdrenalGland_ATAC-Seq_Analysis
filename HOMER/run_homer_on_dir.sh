@@ -2,16 +2,17 @@
 
 #SBATCH --job-name=homer
 #SBATCH --output=homer_%j.log
+#SBATCH --error=homer_j%.err
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8        # HOMER can use multiple cores for motif finding
-#SBATCH --mem=48G                # findMotifsGenome.pl is memory intensive; 8G per file x 6
-#SBATCH --time=12:00:00          # motif finding can be slow; give plenty of buffer
+#SBATCH --cpus-per-task=4        
+#SBATCH --mem=8000M                
+#SBATCH --time=6:00:00          
 #SBATCH --account=bio230007p
 
 # Usage check
-if [ "$#" -lt 2 ]; then
-    echo "Usage: $0 <narrowpeak_dir> <genome> [output_dir]"
-    echo "Example: $0 ./narrowPeak hg38 ./homer_results"
+if [ "$#" -lt 1 ]; then
+    echo "Usage: $0 <narrowpeak_dir> [output_dir]"
+    echo "Example: $0 ./narrowPeak ./homer_results"
     exit 1
 fi
 
@@ -22,8 +23,14 @@ export PATH=/ocean/projects/bio230007p/mccreary/bin:$PATH
 cd /ocean/projects/bio230007p/mccreary
 
 NARROWPEAK_DIR="$1"
-GENOME="$2"
-OUT_DIR="${3:-./homer_results}"
+
+if [ "${NARROWPEAK_DIR%%_*}" == "mouse"]; then
+    GENOME="mm10"
+else
+    GENOME="hg38"
+fi
+
+OUT_DIR="${2:-./homer_results}"
 
 # Validate inputs
 if [ ! -d "$NARROWPEAK_DIR" ]; then
@@ -86,7 +93,7 @@ for NARROWPEAK_FILE in "$NARROWPEAK_DIR"/*.narrowPeak; do
         "$BED_FILE" \
         "$GENOME" \
         "$MOTIF_DIR" \
-        -size given \
+        -size 200 \
         -mask \
         2> "${SAMPLE_DIR}/findMotifs.log"
 

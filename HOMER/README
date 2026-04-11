@@ -1,4 +1,4 @@
-All narrowPeak files in narrowPeak directory processed by run_homer_on_dir.sh > results directory
+All narrowPeak files in narrowPeak directory processed by run_homer_on_dir.sh > results directory (copied and renamed from HALPER pipeline output, species specific coordinates)
 
     Output organized as follows:
 

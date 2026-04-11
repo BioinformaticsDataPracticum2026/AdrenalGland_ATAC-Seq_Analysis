@@ -1,6 +1,5 @@
 mkdir peak_types
 
-
 for dir in results/*/; do
     subdir=$(basename "$dir")
     input="${dir}annotated_peaks.txt"
@@ -29,5 +28,9 @@ for dir in results/*/; do
         }
         
     }' "$input" > "$output"
+
+module load r
+
+Rscript plot_promoters_enhancers.R
 
 done

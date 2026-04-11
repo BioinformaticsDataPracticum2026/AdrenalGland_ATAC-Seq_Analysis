@@ -1,6 +1,6 @@
 library(ggplot2)
 
-file_list <- list.files(path = "HOMER/peak_types", pattern = "\\.txt$", full.names = TRUE)
+file_list <- list.files(path = "peak_types", pattern = "\\.txt$", full.names = TRUE)
 
 for (file in file_list) {
   peaks <- sub(".*/([^.]+)\\..*", "\\1", file)
