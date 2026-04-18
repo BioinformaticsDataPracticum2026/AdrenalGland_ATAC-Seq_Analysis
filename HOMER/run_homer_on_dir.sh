@@ -6,12 +6,10 @@ if [ "$#" -lt 3 ]; then
 fi
 
 # Set HOMER path explicitly
-#export PATH=/ocean/projects/bio230007p/mccreary/bin:$PATH
-export PATH="$1:$PATH"
+export PATH="$2:$PATH"
 
 # Set your working directory
-#cd /ocean/projects/bio230007p/mccreary
-cd "${2:-$PWD}"
+cd "${3:-$PWD}"
 
 NARROWPEAK_DIR="$1"
 OUT_DIR="./homer_results"
