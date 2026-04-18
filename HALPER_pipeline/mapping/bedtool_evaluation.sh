@@ -8,10 +8,33 @@
 #SBATCH -e generate_narrowPeak_%j.err      # stderr log
 #SBATCH -J generate_narrowPeak # job name
 
+set -euo pipefail
 
+DEFAULT_BASE="/ocean/projects/bio230007p/wli27"
+BASE=""
 
-# go to the output directory for mapping
-cd /ocean/projects/bio230007p/wli27/output/Mouse/mapping/conservative
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --base) BASE="$2"; shift 2 ;;
+    -h|--help)
+      echo "Usage: $0 [--base DIR]  (default DIR: ${DEFAULT_BASE})"
+      exit 0
+      ;;
+    *)
+      echo "Unknown argument: $1" >&2
+      echo "Usage: $0 [--base DIR]" >&2
+      exit 1
+      ;;
+  esac
+done
+
+BASE="${BASE:-$DEFAULT_BASE}"
+BASE="${BASE%/}"
+
+HALPER_OUT="${BASE}/output/Mouse/mapping/conservative"
+HUMAN_CONSERVATIVE_NARROWPEAK="${BASE}/HumanAtac/peak/idr_reproducibility/idr.conservative_peak.narrowPeak"
+
+cd "${HALPER_OUT}"
 
 # psc module load bedtools
 module load bedtools
@@ -21,7 +44,7 @@ gunzip -c idr.conservative_peak.MouseToHuman.HALPER.narrowPeak.gz > mouse_to_hum
 # can sort for quick use, optional
 sort -k1,1 -k2,2n mouse_to_human_conservative.narrowPeak > mouse_to_human_conservative.sorted.narrowPeak
 
-sort -k1,1 -k2,2n /ocean/projects/bio230007p/wli27/HumanAtac/peak/idr_reproducibility/idr.conservative_peak.narrowPeak > human_conservative.sorted.narrowPeak
+sort -k1,1 -k2,2n "${HUMAN_CONSERVATIVE_NARROWPEAK}" > human_conservative.sorted.narrowPeak
 
 # shared mapped
 bedtools intersect -a mouse_to_human_conservative.sorted.narrowPeak -b human_conservative.sorted.narrowPeak -u > shared_peaks_conservative.narrowPeak
