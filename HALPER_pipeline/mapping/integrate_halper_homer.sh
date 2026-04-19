@@ -29,8 +29,7 @@ set -euo pipefail
 # Directory containing this script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Defaults (override with flags); align with your original layout
-DEFAULT_BASE="/ocean/projects/bio230007p/wli27"
+# Defaults (override with flags)
 DEFAULT_HAL_FILE="/ocean/projects/bio230007p/ikaplow/Alignments/10plusway-master.hal"
 
 BASE=""
@@ -49,7 +48,7 @@ Required:
   --hal-file PATH         Cactus/HAL .hal file
   --halper-map PATH       halper_map_peak_orthologs.sh from halLiftover-postprocessing
 
-Optional (defaults derived from --base if omitted):
+Optional (defaults derived from --base):
   --conda-env PATH        conda env for HAL tools (default: BASE/hal)
   --hal-bin DIR           HAL binaries directory (default: BASE/repos/hal/bin)
   --halper-pp DIR         halLiftover-postprocessing for PYTHONPATH (default: BASE/repos/halLiftover-postprocessing)
@@ -57,6 +56,7 @@ Optional (defaults derived from --base if omitted):
 EOF
 }
 
+# parse arguments
 parse_args() {
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -75,7 +75,11 @@ parse_args() {
     esac
   done
 
-  BASE="${BASE:-$DEFAULT_BASE}"
+  if [[ -z "${BASE}" ]]; then
+    echo "Error: --base DIR is required." >&2
+    usage
+    exit 1
+  fi
   BASE="${BASE%/}"
 
   HAL_FILE="${HAL_FILE:-$DEFAULT_HAL_FILE}"
@@ -86,7 +90,7 @@ parse_args() {
 
   MOUSE_CONSERVATIVE_NARROWPEAK="${BASE}/MouseAtac/AdrenalGland/peak/idr_reproducibility/idr.conservative_peak.narrowPeak"
   HUMAN_CONSERVATIVE_NARROWPEAK="${BASE}/HumanAtac/peak/idr_reproducibility/idr.conservative_peak.narrowPeak"
-  HALPER_OUT="${BASE}/output/Mouse/mapping/conservative"
+  HALPER_OUT="${SCRIPT_DIR}/results/conservative/narrowPeak"
   CONSERVATIVE_PEAK_DIR="${HALPER_OUT}"
 }
 
@@ -129,7 +133,6 @@ step_mouse_specific_to_mouse_coords() {
   local IN_PEAK="${CONSERVATIVE_PEAK_DIR}/mouse_specific_peaks_conservative.narrowPeak"
   local OUT_PEAK="${CONSERVATIVE_PEAK_DIR}/mouse_specific_peaks_conservative.mouse_coords.narrowPeak"
 
-  # Col4 is always: chr:start-end:summit (HALPER). Join to mouse IDR on chr,start,end,summit = cols 1,2,3,10.
   awk '
     FNR == NR {
       tail[$1 SUBSEP $2 SUBSEP $3 SUBSEP $10] = $4 "\t" $5 "\t" $6 "\t" $7 "\t" $8 "\t" $9 "\t" $10
