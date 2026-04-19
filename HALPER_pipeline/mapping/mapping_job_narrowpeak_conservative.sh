@@ -1,3 +1,4 @@
+# not used in the whole pipeline
 #!/bin/bash
 #SBATCH -A bio230007p        #  project/account
 #SBATCH -p RM-shared          # RM-shared partition

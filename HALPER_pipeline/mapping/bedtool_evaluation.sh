@@ -3,37 +3,42 @@
 #SBATCH -p RM-shared          # RM-shared partition
 #SBATCH --time=01:00:00       # max runtime
 #SBATCH -n 1               # 1 CPU
-#SBATCH --mem=2000         # 2000 MB total (~2 GB)
+#SBATCH --mem=2000         # 2000 MB total 
 #SBATCH -o generate_narrowPeak_%j.out      # stdout log
 #SBATCH -e generate_narrowPeak_%j.err      # stderr log
 #SBATCH -J generate_narrowPeak # job name
 
 set -euo pipefail
-
-DEFAULT_BASE="/ocean/projects/bio230007p/wli27"
 BASE=""
 
+# parse arguments
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --base) BASE="$2"; shift 2 ;;
     -h|--help)
-      echo "Usage: $0 [--base DIR]  (default DIR: ${DEFAULT_BASE})"
+      echo "Usage: $0 --base DIR"
       exit 0
       ;;
     *)
       echo "Unknown argument: $1" >&2
-      echo "Usage: $0 [--base DIR]" >&2
+      echo "Usage: $0 --base DIR" >&2
       exit 1
       ;;
   esac
 done
 
-BASE="${BASE:-$DEFAULT_BASE}"
+if [[ -z "${BASE}" ]]; then
+  echo "Error: --base DIR is required." >&2
+  echo "Usage: $0 --base DIR" >&2
+  exit 1
+fi
 BASE="${BASE%/}"
 
-HALPER_OUT="${BASE}/output/Mouse/mapping/conservative"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+HALPER_OUT="${SCRIPT_DIR}/results/conservative/narrowPeak"
 HUMAN_CONSERVATIVE_NARROWPEAK="${BASE}/HumanAtac/peak/idr_reproducibility/idr.conservative_peak.narrowPeak"
 
+mkdir -p "${HALPER_OUT}"
 cd "${HALPER_OUT}"
 
 # psc module load bedtools
