@@ -2,7 +2,8 @@
 The purpose of this pipeline is to provide complete analysis of IDR-conservative ATAC-Seq peak data for mouse and human samples. It takes heirarchial alignment files (.hal) and conducts peak mapping, annotation of promoters and enhancers, motif enrichment, and GO analysis.
 
 This analysis used human and mouse ATAC-Seq data from healthy adrenal gland tissue in female subjects. Human data was from the ENCODE database (ENCSR241OBO and ENCSR864ADD) and mouse data was from Liu et al., Scientific Data, 2019. Reference genomes used throughout analysis were hg38 and mm10 respectively. 
-
+## Tutorial
+👉 [Open Tutorial](https://BioinformaticsDataPracticum2026.github.io/looking_spleentacular/tutorial.html)
 ## Installation
 ### Dependencies:
 This tool was designed for a Linux SLURM cluster. To ensure smooth execution of complete_analysis_pipeline.sh, install the following to your cluster environment bin before running:
