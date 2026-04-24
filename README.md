@@ -52,6 +52,11 @@ To run the full pipeline, users can submit a slurm job of COMPLETE_ANALYSIS_PIPE
 sbatch COMPLETE_ANALYSIS_PIPELINE.sh <.hal filepath> <halper_map_peak_orthologs.sh path> <bin_path>"
 ```
 
+Example:
+```
+sbatch COMPLETE_ANALYSIS_PIPELINE.sh /ocean/projects/bio230007p/ikaplow/Alignments/10plusway-master.hal /ocean/projects/bio230007p/mccreary/red_group/RUN_FULL_PIPELINE/repos/halLiftover-postprocessing/halper_map_peak_orthologs.sh
+```
+
 ### Output
 COMPLETE_ANALYSIS_PIPELINE.sh will conduct peak mapping, annotation, motif enrichment, and GO analysis. The output will be organized as follows:
 
@@ -106,7 +111,6 @@ RUN_FULL_PIPELINE/
 This project was conducted for 03-713 Bioinformatics Data Practicum at Carnegie Mellon University, Spring 2026. Authors include Wen Li, Makayla McCreary, Guanyang Wang, and Ushta Samal.
 
 Dependencies retreived from:
-- BEDTools: Quinlan & Hall (2010)
 - HALPER: Pfenning Lab
 - HOMER: Heinz et al. (2010)
 - rGREAT: Gu et al. (2016)
