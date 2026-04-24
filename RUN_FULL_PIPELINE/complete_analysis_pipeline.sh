@@ -3,6 +3,7 @@
 #SBATCH --job-name=full_ATAC_peak_analysis
 #SBATCH --output=ATAC_%j.log
 #SBATCH --error=ATAC_%j.err
+#SBATCH --partition=RM-shared
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4        
 #SBATCH --mem=8000M                
@@ -12,6 +13,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "$SCRIPT_DIR"
 
 if [ "$#" -lt 2 ]; then
     echo "Usage: $0 <.hal filepath> <halper_map_peak_orthologs.sh path>"
@@ -19,11 +21,11 @@ if [ "$#" -lt 2 ]; then
 fi
 
 HAL_FILE=$1
-HALPER_MAP_SH=$2
+HALPER_MAP=$2
 BIN_PATH="$SCRIPT_DIR/bin"
 
 echo "Starting mapping with integrate_halper.sh..." # will produce "./results/conservative/narrowPeak/"
-bash "$SCRIPT_DIR/integrate_halper.sh" "$SCRIPT_DIR" "$HAL_FILE" "$HALPER_MAP"
+bash "$SCRIPT_DIR/integrate_halper.sh" --base "$SCRIPT_DIR" --hal-file "$HAL_FILE" --halper-map "$HALPER_MAP"
 echo "Mapping complete! Results in BASE/results/conservative/narrowPeak"
 
 # reformat narrowPeak output for downstream use
