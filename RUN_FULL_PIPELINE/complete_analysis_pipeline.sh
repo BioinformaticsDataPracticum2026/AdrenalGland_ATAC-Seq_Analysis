@@ -11,19 +11,20 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$SLURM_SUBMIT_DIR"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 if [ "$#" -lt 2 ]; then
-    echo "Usage: $0 <.hal filepath> <halper_map_peak_orthologs.sh path> <bin_path>"
+    echo "Usage: $0 <.hal filepath> <halper_map_peak_orthologs.sh path>"
     exit 1
 fi
 
 HAL_FILE=$1
 HALPER_MAP_SH=$2
-BIN_PATH=$3
+BIN_PATH="$SCRIPT_DIR/bin"
 
 echo "Starting mapping with integrate_halper.sh..." # will produce "./results/conservative/narrowPeak/"
 bash "$SCRIPT_DIR/integrate_halper.sh" "$SCRIPT_DIR" "$HAL_FILE" "$HALPER_MAP"
+echo "Mapping complete! Results in BASE/results/conservative/narrowPeak"
 
 # reformat narrowPeak output for downstream use
 echo "Extracting relevant files for homer analysis..."
@@ -38,15 +39,19 @@ cp "./results/conservative/narrowPeak/human_specific_peaks_conservative.narrowPe
 cp "./results/conservative/narrowPeak/mouse_specific_peaks_conservative.mouse_coords.narrowPeak" \
    "./narrowPeak_for_homer/mouse_specific.narrowPeak"
 
-echo "Done. Files in ./narrowPeak_for_homer:"
+echo "Done. Files in BASE/narrowPeak_for_homer:"
 ls ./narrowPeak_for_homer/
 
 echo "Starting motif enrichment and peak annotation with run_homer_on_dir.sh..."
 bash "$SCRIPT_DIR/run_full_annotatePeaks_findMotifs.sh" "./narrowPeak_for_homer" "$BIN_PATH" # should prouduce ./homer_results dir and ./filered_annotations dir
+echo "Done! Results in BASE/homer_results and BASE/filtered_annotations"
 
 echo "Starting enhancer_promoter_analysis.py..."
 python "$SCRIPT_DIR/enhancer_promoter_analysis.py" --input-dir "./filtered_annotations" # should produce motif_annotation_split dir
+echo "Done! Results in BASE/motif_annotation_split"
 
 echo "Starting GO BP enrichment with rGREAT run_GO_pipeline.sh..."
 bash "$SCRIPT_DIR/run_GO_pipeline.sh" "./filtered_annotations" # should produce ./rGREAT_results dir
-echo "Done."
+echo "Done! Results in BASE/rGREAT_results"
+
+echo "Full pipeline complete"
