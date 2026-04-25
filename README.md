@@ -25,12 +25,11 @@ conda install -c matplotlib numpy wget R
 # verify installation using conda list <package name>
 ```
 
-Open an R environment for the following steps:
+Open an R environment for the following steps (most R dependencies, such as rGREAT, will be automatically installed:
 ```
 install.packages("tidyverse")
 if(!require("BiocManager", quiety=TRUE))
 	install.packages("BiocManager")
-BiocManager::install("rGREAT")
 ```
 
 ### 3. Install HOMER and genomes
