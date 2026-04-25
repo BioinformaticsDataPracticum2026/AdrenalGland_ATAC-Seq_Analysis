@@ -12,7 +12,7 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="${SLURM_SUBMIT_DIR:-$(pwd -P)}"
 echo "$SCRIPT_DIR"
 
 if [ "$#" -lt 2 ]; then
@@ -24,25 +24,25 @@ HAL_FILE=$1
 HALPER_MAP=$2
 BIN_PATH="$SCRIPT_DIR/bin"
 
-echo "Starting mapping with integrate_halper.sh..." # will produce "./results/conservative/narrowPeak/"
+echo "Starting mapping with integrate_halper.sh..." # will produce ".output/Mouse/mapping/conservative/"
 bash "$SCRIPT_DIR/integrate_halper.sh" --base "$SCRIPT_DIR" --hal-file "$HAL_FILE" --halper-map "$HALPER_MAP"
-echo "Mapping complete! Results in BASE/results/conservative/narrowPeak"
+echo "Mapping complete! Results in BASE/output/Mouse/mapping/conservative"
 
 # reformat narrowPeak output for downstream use
 echo "Extracting relevant files for homer analysis..."
-mkdir -p ./narrowPeak_for_homer
+mkdir -p "${SCRIPT_DIR}/narrowPeak_for_homer"
 
-cp "./results/conservative/narrowPeak/shared_peaks_conservative.narrowPeak" \
-   "./narrowPeak_for_homer/shared_peaks.narrowPeak"
+cp "${SCRIPT_DIR}/output/Mouse/mapping/conservative/shared_peaks_conservative.narrowPeak" \
+   "${SCRIPT_DIR}/narrowPeak_for_homer/shared_peaks.narrowPeak"
 
-cp "./results/conservative/narrowPeak/human_specific_peaks_conservative.narrowPeak" \
-   "./narrowPeak_for_homer/human_specific.narrowPeak"
+cp "${SCRIPT_DIR}/output/Mouse/mapping/conservative/human_specific_peaks_conservative.narrowPeak" \
+   "${SCRIPT_DIR}/narrowPeak_for_homer/human_specific.narrowPeak"
 
-cp "./results/conservative/narrowPeak/mouse_specific_peaks_conservative.mouse_coords.narrowPeak" \
-   "./narrowPeak_for_homer/mouse_specific.narrowPeak"
+cp "${SCRIPT_DIR}/output/Mouse/mapping/conservative/mouse_specific_peaks_conservative.mouse_coords.narrowPeak" \
+   "${SCRIPT_DIR}/narrowPeak_for_homer/mouse_specific.narrowPeak"
 
 echo "Done. Files in BASE/narrowPeak_for_homer:"
-ls ./narrowPeak_for_homer/
+ls "${SCRIPT_DIR}/narrowPeak_for_homer"
 
 echo "Starting motif enrichment and peak annotation with run_homer_on_dir.sh..."
 bash "$SCRIPT_DIR/run_full_annotatePeaks_findMotifs.sh" "./narrowPeak_for_homer" "$BIN_PATH" # should prouduce ./homer_results dir and ./filered_annotations dir

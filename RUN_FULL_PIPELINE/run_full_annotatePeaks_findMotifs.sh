@@ -21,7 +21,7 @@ if [ "$#" -lt 2 ]; then
 fi
 
 echo "Starting run_homer_on_dir.sh..."
-bash "$SCRIPT_DIR/run_homer_on_dir.sh" "$1" "$2" ${WD:+"$WD"}
+bash "$SCRIPT_DIR/run_homer_on_dir.sh" "$1" "$2" "${WD:+$WD}"
 echo "Starting extract_promoters_enhancers.sh..."
-bash "$SCRIPT_DIR/extract_promoters_enhancers.sh" ${WD:+"$WD"}
+bash "$SCRIPT_DIR/extract_promoters_enhancers.sh" "${WD:+$WD}"
 echo "Done."

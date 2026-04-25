@@ -22,7 +22,7 @@ BASE="${BASE:-$DEFAULT_BASE}"
 BASE="${BASE%/}"
 
 HALPER_OUT="${BASE}/output/Mouse/mapping/conservative"
-HUMAN_CONSERVATIVE_NARROWPEAK="${BASE}/HumanAtac/peak/idr_reproducibility/idr.conservative_peak.narrowPeak"
+HUMAN_CONSERVATIVE_NARROWPEAK="${BASE}/idr_reproducibility/HumanAtac/idr.conservative_peak.narrowPeak"
 
 cd "${HALPER_OUT}"
 

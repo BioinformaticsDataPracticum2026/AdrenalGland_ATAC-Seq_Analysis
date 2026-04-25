@@ -21,13 +21,11 @@ done
 BASE="${BASE:-$DEFAULT_BASE}"
 BASE="${BASE%/}"
 
-module load anaconda3/2024.10-1
-conda activate "${BASE}/hal"
 export PATH="${BASE}/repos/hal/bin:${PATH}"
 export PYTHONPATH="${BASE}/repos/halLiftover-postprocessing:${PYTHONPATH:-}"
 
-cd "${BASE}/MouseAtac/AdrenalGland/peak/idr_reproducibility"
+cd "${BASE}idr_reproducibility/MouseAtac"
 zcat idr.conservative_peak.narrowPeak.gz > idr.conservative_peak.narrowPeak
 
-cd "${BASE}/HumanAtac/peak/idr_reproducibility"
+cd "${BASE}idr_reproducibility/HumanAtac"
 zcat idr.conservative_peak.narrowPeak.gz > idr.conservative_peak.narrowPeak

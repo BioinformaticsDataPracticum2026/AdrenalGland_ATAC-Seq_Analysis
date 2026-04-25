@@ -75,8 +75,8 @@ parse_args() {
   HAL_BIN="${HAL_BIN:-${BASE}/repos/hal/bin}"
   HALPER_PP="${HALPER_PP:-${BASE}/repos/halLiftover-postprocessing}"
 
-  MOUSE_CONSERVATIVE_NARROWPEAK="${BASE}/MouseAtac/AdrenalGland/peak/idr_reproducibility/idr.conservative_peak.narrowPeak"
-  HUMAN_CONSERVATIVE_NARROWPEAK="${BASE}/HumanAtac/peak/idr_reproducibility/idr.conservative_peak.narrowPeak"
+  MOUSE_CONSERVATIVE_NARROWPEAK="${BASE}/idr_reproducibility/MouseAtac/idr.conservative_peak.narrowPeak"
+  HUMAN_CONSERVATIVE_NARROWPEAK="${BASE}/idr_reproducibility/HumanAtac/idr.conservative_peak.narrowPeak"
   HALPER_OUT="${BASE}/output/Mouse/mapping/conservative"
   CONSERVATIVE_PEAK_DIR="${HALPER_OUT}"
 }
@@ -86,7 +86,9 @@ parse_args "$@"
 # load hal environment
 setup_hal_env() {
   module load anaconda3/2024.10-1
+  set +u
   conda activate "${CONDA_ENV}"
+  set -u
   export PATH="${HAL_BIN}:${PATH}"
   export PYTHONPATH="${HALPER_PP}:${PYTHONPATH:-}"
 }
@@ -96,11 +98,12 @@ setup_hal_env() {
 # -----------------------------------------------------------------------------
 step_unzip() {
   bash "${SCRIPT_DIR}/unzip_narrowPeak.sh" --base "${BASE}"
+  echo "Narrowpeak files successfully unzipped"
 }
 
 # Step 2 — Map mouse conservative peaks to human coordinates via HALPER.
 step_halper() {
-  setup_hal_env
+  #setup_hal_env
   mkdir -p "${HALPER_OUT}"
   bash "${HALPER_MAP_SH}" \
     -b "${MOUSE_CONSERVATIVE_NARROWPEAK}" \
@@ -108,11 +111,13 @@ step_halper() {
     -s Mouse \
     -t Human \
     -c "${HAL_FILE}"
+    echo "Mapped mouse peaks to human coordinates"
 }
 
 # Step 3 — Classify peaks: shared vs mouse-specific vs human-specific using bedtools intersect.
 step_bedtools() {
   bash "${SCRIPT_DIR}/bedtool_evaluation.sh" --base "${BASE}"
+  echo "Bedtools intersection complete"
 }
 
 # Step 4 — Rebuild mouse_specific peaks as a proper MOUSE-coordinate narrowPeak file.
