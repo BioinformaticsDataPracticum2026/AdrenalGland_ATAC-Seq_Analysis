@@ -25,7 +25,7 @@ conda install -c matplotlib numpy wget R
 # verify installation using conda list <package name>
 ```
 
-Open an R environment for the following steps (most R dependencies, such as rGREAT, will be automatically installed:
+Open an R environment for the following steps (most R dependencies, such as rGREAT, will be automatically installed):
 ```
 install.packages("tidyverse")
 if(!require("BiocManager", quiety=TRUE))
