@@ -21,7 +21,6 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Defaults (override with flags); align with your original layout
-DEFAULT_BASE="/ocean/projects/bio230007p/wli27"
 DEFAULT_HAL_FILE="/ocean/projects/bio230007p/ikaplow/Alignments/10plusway-master.hal"
 
 BASE=""

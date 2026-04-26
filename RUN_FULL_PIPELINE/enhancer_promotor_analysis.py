@@ -54,13 +54,13 @@ def main() -> Path:
         usage="%(prog)s [--filtered-dir DIR] [--out-dir DIR]",
     )
     p.add_argument(
-        "--input-dir", # /ocean/projects/bio230007p/wli27/repo/looking_spleentacular/HOMER/filtered_annotations
+        "--input-dir", # HOMER/filtered_annotations
         type=Path,
         default=default_filtered_dir(),
         metavar="DIR",
     )
     p.add_argument(
-        "--output-dir", # /ocean/projects/bio230007p/wli27/repo/looking_spleentacular/HOMER_evaluation/motif_annotation_split
+        "--output-dir", # HOMER_evaluation/motif_annotation_split
         type=Path,
         default=default_out_dir(),
         metavar="DIR",
