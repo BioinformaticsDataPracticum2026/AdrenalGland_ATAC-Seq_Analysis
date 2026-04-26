@@ -1,6 +1,5 @@
 set -euo pipefail
 
-DEFAULT_BASE="/ocean/projects/bio230007p/wli27"
 BASE=""
 
 while [[ $# -gt 0 ]]; do
