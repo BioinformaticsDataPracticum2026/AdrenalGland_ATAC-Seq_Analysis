@@ -6,10 +6,10 @@ This analysis used human and mouse ATAC-Seq data from healthy adrenal gland tiss
 ## Tutorial
 👉 [Open Tutorial](https://BioinformaticsDataPracticum2026.github.io/AdrenalGland_ATAC-Seq_Analysis/tutorial.html)
 ## Installation Instructions:
-This tool was designed for a Linux SLURM cluster. To ensure smooth execution of COMPLETE_ANALYSIS_PIPELINE.sh, complete the following:
+This tool was designed for a Linux SLURM cluster. To ensure smooth execution of complete_analysis_pipeline.sh, complete the following:
 
 ### 1. Download the RUN_FULL_PIPELINE directory
-This folder contains the COMPLETE_ANALYSIS_PIPELINE.sh script as well as all dependent scripts. Copy this folder into your Linux cluster environment and treat it as your base directory when installing the rest of the dependencies.
+This folder contains the complete_analysis_pipeline.sh script as well as all dependent scripts. Copy this folder into your Linux cluster environment and treat it as your base directory when installing the rest of the dependencies.
 
 ### 2. Set up dependencies with conda
 Set up the environment
@@ -41,7 +41,7 @@ remotes::install_github("jokergoo/rGREAT")
 # in atac_seq_analysis conda environment:
 conda install -c bioconda bioconductor-rgreat
 ```
-Then comment out all prior steps of COMPLETE_ANALYSIS_PIPELINE.sh and run only the rGREAT pipeline, either as a slurm job (with adjusted job parameters) or from your terminal.
+Then comment out all prior steps of complete_analysis_pipeline.sh and run only the rGREAT pipeline, either as a slurm job (with adjusted job parameters) or from your terminal.
 
 ### 3. Install HOMER and genomes
 ```
@@ -84,24 +84,24 @@ RUN_FULL_PIPELINE/
 ## USAGE
 
 ### Input
-To run the full pipeline, users can submit a slurm job of COMPLETE_ANALYSIS_PIPELINE.sh using the following command:
+To run the full pipeline, users can submit a slurm job of complete_analysis_pipeline.sh using the following command:
 
 ```
-sbatch COMPLETE_ANALYSIS_PIPELINE.sh <.hal filepath> <halper_map_peak_orthologs.sh path>
+sbatch complete_analysis_pipeline.sh <.hal filepath> <halper_map_peak_orthologs.sh path>
 ```
 
 Example:
 ```
-sbatch COMPLETE_ANALYSIS_PIPELINE.sh /ocean/projects/bio230007p/ikaplow/Alignments/10plusway-master.hal /ocean/projects/bio230007p/mccreary/red_group/RUN_FULL_PIPELINE/repos/halLiftover-postprocessing/halper_map_peak_orthologs.sh
+sbatch complete_analysis_pipeline.sh /ocean/projects/bio230007p/ikaplow/Alignments/10plusway-master.hal /ocean/projects/bio230007p/mccreary/red_group/RUN_FULL_PIPELINE/repos/halLiftover-postprocessing/halper_map_peak_orthologs.sh
 ```
 
 ### Output
-COMPLETE_ANALYSIS_PIPELINE.sh will conduct peak mapping, annotation, motif enrichment, and GO analysis. The output will be organized as follows:
+complete_analysis_pipeline.sh will conduct peak mapping, annotation, motif enrichment, and GO analysis. The output will be organized as follows:
 
 ```
 RUN_FULL_PIPELINE/
-├── COMPLETE_ANALYSIS_PIPELINE.sh
-├── scripts called by COMPLETE_ANALYSIS_PIPELINE.sh...
+├── complete_analysis_pipeline.sh
+├── scripts called by complete_analysis_pipeline.sh...
 │
 ├── output/Mouse/mapping/conservative				# output from mapping                    
 │       ├── shared_peaks_conservative.narrowPeak
