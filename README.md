@@ -31,12 +31,13 @@ install.packages("tidyverse")
 if(!require("BiocManager", quiety=TRUE))
 	install.packages("BiocManager")
 ```
-Notes: if there are issues with rGREAT installation during auto-installation, try one of these instead:
+Note: if there are issues with rGREAT installation during auto-installation, try one of these instead:
 ```
 # in an R environment:
 install.packages("remotes")
 remotes::install_github("jokergoo/rGREAT")
-
+```
+```
 # in atac_seq_analysis conda environment:
 conda install -c bioconda bioconductor-rgreat
 ```
