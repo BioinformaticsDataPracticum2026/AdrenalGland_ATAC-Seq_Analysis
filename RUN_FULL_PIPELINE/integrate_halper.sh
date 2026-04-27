@@ -92,16 +92,22 @@ step_unzip() {
 
 # Step 2 — Map mouse conservative peaks to human coordinates via HALPER.
 step_halper() {
-  export PATH="${HAL_BIN}:${PATH}"
-  export PYTHONPATH="${HALPER_PP}:${PYTHONPATH:-}"
-  mkdir -p "${HALPER_OUT}"
-  bash "${HALPER_MAP_SH}" \
-    -b "${MOUSE_CONSERVATIVE_NARROWPEAK}" \
-    -o "${HALPER_OUT}/" \
-    -s Mouse \
-    -t Human \
-    -c "${HAL_FILE}"
+  (
+    # use hal env instead of atac_seq_analysis env
+    set +u
+    eval "$(conda shell.bash hook)"
+    conda activate hal
+    set -u
+
+    mkdir -p "${HALPER_OUT}"
+    bash "${HALPER_MAP_SH}" \
+      -b "${MOUSE_CONSERVATIVE_NARROWPEAK}" \
+      -o "${HALPER_OUT}/" \
+      -s Mouse \
+      -t Human \
+      -c "${HAL_FILE}"
     echo "Mapped mouse peaks to human coordinates"
+  )
 }
 
 # Step 3 — Classify peaks: shared vs mouse-specific vs human-specific using bedtools intersect.
