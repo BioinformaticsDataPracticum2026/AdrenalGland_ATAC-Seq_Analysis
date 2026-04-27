@@ -31,6 +31,16 @@ install.packages("tidyverse")
 if(!require("BiocManager", quiety=TRUE))
 	install.packages("BiocManager")
 ```
+Notes: if there are issues with rGREAT installation during auto-installation, try one of these instead:
+```
+# in an R environment:
+install.packages("remotes")
+remotes::install_github("jokergoo/rGREAT")
+
+# in atac_seq_analysis conda environment:
+conda install -c bioconda bioconductor-rgreat
+```
+Then comment out all prior steps of COMPLETE_ANALYSIS_PIPELINE.sh and run only the rGREAT pipeline, either as a slurm job (with adjusted job parameters) or from your terminal.
 
 ### 3. Install HOMER and genomes
 ```
