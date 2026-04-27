@@ -53,7 +53,7 @@ mkdir MouseAtac # add .narrowPeak.gz here
 ```
 
 ```
-BASE/
+RUN_FULL_PIPELINE/
 ├── hal/                                    # conda env (--conda-env), e.g. conda activate …/hal
 │   └── …
 │
