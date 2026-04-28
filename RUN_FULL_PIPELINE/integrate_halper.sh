@@ -97,7 +97,6 @@ step_halper() {
     set +u
     eval "$(conda shell.bash hook)"
     conda activate hal
-    set -u
 
     mkdir -p "${HALPER_OUT}"
     bash "${HALPER_MAP_SH}" \
